@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Login System</title>
+
+    <!-- *Font Awesome -->
+    <link rel="icon" href="images/favicon.png">
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/main.css"/>
+    <!-- *Favicon -->
+  </head>
+  <body>
+    <!-- !Validation Dialog -->
+    <div
+      id="validationDialog"
+      class="dialog-overlay d-none position-fixed d-flex align-items-center justify-content-center"
+      tabindex="-1"
+      role="dialog"
+    >
+      <div class="dialog-content bg-white rounded-4 w-100 m-3">
+        <div class="dialog-header p-3 d-flex align-items-center">
+          <div class="window-controls d-flex gap-1">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <button
+            id="btn-closed"
+            type="button"
+            class="btn-close d-flex justify-content-center align-items-center"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="dialog-body p-3">
+          <h2 class="dialog-title mb-3">
+            Email or Password is not valid, Please follow the rules..
+          </h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- !Login Screen -->
+    <section class="login-Sec d-none" id="login-section">
+      <div class="overlay position-relative h-100">
+        <div
+          class="login-wrapper d-flex justify-content-center align-items-center vh-100"
+        >
+          <div class="card glass-card p-4 shadow-lg z-3">
+            <div class="d-flex justify-content-end">
+              <button class="btn-close" aria-label="Close"></button>
+            </div>
+
+            <h3 class="text-center mb-4 fw-bold">Login</h3>
+            <form>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <div class="input-group">
+                  <input type="email" oninput="validationInputs(this
+                  ,'msgEmail')" 
+                  class="form-control" id="email" placeholder="Enter Email" />
+                  <span class="input-group-text"
+                    ><i class="fa-solid fa-envelope"></i
+                  ></span>
+                </div>
+                <p
+                  class="text-danger fw-medium correctnes d-none"
+                  id="msgEmail"
+                >
+                  Please enter a valid email address (e.g., name@example.com).
+                </p>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                  <input type="password" oninput="validationInputs(this
+                  ,'msgPassword')" //oninput="validationPassword()"
+                  class="form-control" id="password" placeholder="Enter Password"/>
+                  <span class="input-group-text"
+                    ><i class="fa-solid fa-lock"></i
+                  ></span>
+                </div>
+                <p
+                  class="text-danger fw-medium correctnes d-none"
+                  id="msgPassword"
+                >
+                  Password must contain at least 8 characters, one uppercase
+                  letter, one lowercase letter, and one number..
+                </p>
+              </div>
+              <div
+                class="d-flex justify-content-between align-items-center mb-3"
+              >
+                <div>
+                  <input type="checkbox" id="remember" />
+                  <label for="remember" class="form-check-label ms-1"
+                    >Remember me</label
+                  >
+                </div>
+                <a href="#" id="forgotPassword" class="text-decoration-none">Forgot Password?</a>
+              </div>
+              <button
+                type="button"
+                onclick="submitData()"
+                class="btn btn-dark w-100"
+              >
+                Login
+              </button>
+            </form>
+            <p class="text-center mt-3">
+              Don’t have an account?
+              <a href="#" id="goToRegister" class="text-decoration-none">Register</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- !Regestration Screen -->
+    <section class="login-Sec" id="register-section">
+      <div class="overlay position-relative h-100">
+        <div
+          class="login-wrapper d-flex justify-content-center align-items-center vh-100"
+        >
+          <div class="card glass-card p-4 shadow-lg z-3">
+            <div class="d-flex justify-content-end">
+              <button class="btn-close" aria-label="Close"></button>
+            </div>
+
+            <h3 class="text-center mb-4 fw-bold">ٌRegister</h3>
+            <!-- Registration Form -->
+            <form id="registerForm">
+              <div class="mb-3">
+                <label for="registerName" class="form-label">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="registerName"
+                  placeholder="Enter Your Name"
+                  oninput="validationInputs(this,'msgRegisterName')"
+                />
+                <p
+                  class="text-danger fw-medium correctnes d-none"
+                  id="msgRegisterName"
+                >
+                Please enter your name.
+                </p>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="registerEmail"
+                  placeholder="Enter Email"
+                  oninput="validationInputs(this,'msgRegisterEmail')"
+                />
+                <p
+                  class="text-danger fw-medium correctnes d-none"
+                  id="msgRegisterEmail"
+                >
+                Please enter a valid email address (e.g., name@example.com).
+                </p>
+              </div>
+              <div class="mb-3">
+                <label for="registerPassword" class="form-label"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="registerPassword"
+                  placeholder="Enter Password"
+                  oninput="validationInputs(this,'msgRegisterPassword')"
+                />
+                <p
+                  class="text-danger fw-medium correctnes d-none"
+                  id="msgRegisterPassword"
+                >
+                  Password must contain at least 8 characters, one uppercase
+                  letter, one lowercase letter, and one number.
+                </p>
+              </div>
+              <button
+                type="button"
+                class="btn btn-dark w-100"
+                onclick="register()"
+              >
+                Register
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- !Home Section -->
+     <section id="home-section" class="login-Sec d-none d-flex justify-content-center align-items-center flex-column">
+      <div class="card home-card">
+        <div class="card-body  d-flex justify-content-center align-items-center flex-column p-5">
+          <h1 class="card-title pb-5 text-white">Welcome To The Home Page</h1>
+          <p class="card-text pb-5 fs-1 text-white" id="welcome-msg"></p>
+          <button class="btn logout-btn text-white"  onclick="logout()">Logout</button>
+        </div>
+      </div>
+     </section>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
